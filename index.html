@@ -300,6 +300,17 @@
     }
     .global-copyright a { color: var(--accent-strong); font-weight: 500; text-decoration: none; }
 
+    /* 计数器区块 */
+    .visitor-counter-wrap {
+      text-align: center;
+      margin: 8px 0 16px;
+    }
+    .visitor-counter-wrap img {
+      height: 24px;
+      border-radius: 12px;
+      vertical-align: middle;
+    }
+
     @media (max-width: 860px) {
       .result-top { grid-template-columns: 1fr; }
     }
@@ -406,7 +417,14 @@
       </div>
     </div>
   </section>
-  <!-- 全局底部声明（始终可见，但受section切换不影响，保留） -->
+
+  <!-- 访客计数器区块（新增） -->
+  <div class="visitor-counter-wrap">
+    <span style="color: var(--muted); font-size: 14px; margin-right: 6px;">👀 访问次数</span>
+    <span id="visitor-counter"></span>
+  </div>
+
+  <!-- 全局底部声明（始终可见） -->
   <div class="global-copyright">
     <span>© SBTI 灵魂拿捏测试 · 创意/文案/图片版权均归 <a href="https://space.bilibili.com/417038183" target="_blank">B站@蛆肉儿串儿</a> · 侵权联系删除</span>
   </div>
@@ -696,6 +714,29 @@
     document.getElementById('submitBtn').addEventListener('click', renderResult);
     document.getElementById('restartBtn').addEventListener('click', startTest);
     document.getElementById('toTopBtn').addEventListener('click', ()=> showScreen('intro'));
+
+    // ---------- 访客计数器（新增） ----------
+    (function loadVisitorCounter() {
+      const container = document.getElementById('visitor-counter');
+      if (!container) return;
+      
+      // 生成当前页面唯一标识（使用页面路径，排除查询参数）
+      const pageUrl = encodeURIComponent(window.location.pathname);
+      
+      const img = document.createElement('img');
+      img.src = 'https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=' + pageUrl 
+                + '&count_bg=%233A5A6E'    // 数字背景色，与主题accent协调
+                + '&title_bg=%235D6D7E'    // 标题背景色
+                + '&icon=&icon_color=%23E7E7E7'
+                + '&title=Visits' 
+                + '&edge_flat=false';
+      img.alt = '访问次数';
+      img.style.height = '24px';
+      img.style.verticalAlign = 'middle';
+      img.style.borderRadius = '12px';
+      
+      container.appendChild(img);
+    })();
   })();
 </script>
 </body>
